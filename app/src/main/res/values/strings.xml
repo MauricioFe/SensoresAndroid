@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Sensores</string>
+    <string name="selecionar_um_sensor">Selecionar um sensor</string>
+    <string name="valor_do_sensor">Valor do sensor</string>
+</resources>

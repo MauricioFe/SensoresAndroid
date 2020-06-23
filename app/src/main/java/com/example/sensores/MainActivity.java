@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     List<Sensor> mSensores;
     TextView txtValores;
     int mSensorSelecionado;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         mSensores = mSensorManager.getSensorList(Sensor.TYPE_ALL);
 
         List<String> nomeSensor = new ArrayList<String>();
-        for (Sensor sensor: mSensores) {
+        for (Sensor sensor : mSensores) {
             nomeSensor.add(sensor.getName());
         }
 
@@ -61,16 +62,22 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     @Override
     public void onSensorChanged(SensorEvent event) {
         String valores = "Valores do sensor:\n";
+        for (int i = 0; i < event.values.length; i++) {
+            valores += "values[" + i + "] = " + event.values[i] + "\n";
+        }
+        txtValores.setText(valores);
     }
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
-        Toast.makeText(this, "Precisão mudou "+ accuracy, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Precisão mudou " + accuracy, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
+        mSensorSelecionado = position;
+        mSensorManager.unregisterListener(this);
+        mSensorManager.registerListener(this, mSensores.get(mSensorSelecionado), SensorManager.SENSOR_DELAY_NORMAL);
     }
 
     @Override
